@@ -6,17 +6,20 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace SimplyCrudAPI.ExampleData.UserData
 {
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfileRegisterData))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfile))]
     public class ExampleUserSuccess : IExamplesProvider<UserProfileRegisterData>
     {
         public UserProfileRegisterData GetExamples()
         {
             return new UserProfileRegisterData
             {
-                Message = "User registered successfully",
-                IdUser = 1,
+                UserProfile = new UserProfileRegisterBad
+                {
+                    Message = "User registered successfully"
+                },
+                IdUser = 3,
                 LoginID = "admin",
-                Password = "$2a$11$5IqEzHK0d1F16UK2Sk2H6OxfjsPel6vElJl2s7OC0TcnB5aOptEVy",
+                Password = "$2a$11$5IqEzHK0d1F16UK2Sk2H6ORtB1LDcpycyJVAQC4FCg7wXUxzQlkxu", // This should be a hashed password
                 Email = "admin@gmail.com",
                 Address = "Pekanbaru",
                 Gender = "Pria",

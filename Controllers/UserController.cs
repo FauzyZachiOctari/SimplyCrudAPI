@@ -33,7 +33,7 @@ namespace SimplyCrudAPI.Controllers
         [HttpPost("RegisterUser")]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserProfileRegisterBad), 400)]
-        [ProducesResponseType(typeof(UserProfileRegister), 200)]
+        [ProducesResponseType(typeof(UserProfileRegisterData), 200)]
         public async Task<IActionResult> AddUserRegister(UserProfileRegister userProfile)
         {
             try

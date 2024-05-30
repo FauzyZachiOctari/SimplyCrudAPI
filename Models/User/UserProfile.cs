@@ -25,9 +25,14 @@ namespace SimplyCrudAPI.Models.User
         public string Gender { get; set; }
         public int Age { get; set; }
     }
+    public class UserProfileRegisterBad
+    {
+        public string Message { get; set; }
+    }
 
     public class UserProfileRegisterData
     {
+        public UserProfileRegisterBad UserProfile { get; set; }
         public int IdUser { get; set; }
         public string LoginID { get; set; }
         public string Password { get; set; }
@@ -35,11 +40,6 @@ namespace SimplyCrudAPI.Models.User
         public string Address { get; set; }
         public string Gender { get; set; }
         public int Age { get; set; }
-        public string Message { get; set; }
     }
 
-    public class UserProfileRegisterBad
-    {
-        public string Message { get; set; }
-    }
 }
