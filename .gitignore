@@ -1,0 +1,25 @@
+﻿# File build ASP.NET Core
+obj/
+bin/
+*.exe
+*.pdb
+*.dll
+
+# File migrations
+Migrations/
+
+# File konfigurasi
+appsettings.json
+appsettings.Development.json
+
+# File log dan cache
+*.log
+*.cache
+
+# Package directory
+packages/
+*.nupkg
+*.paket
+
+# Visual Studio Code
+.vscode/
