@@ -17,7 +17,11 @@ namespace SimplyCrudAPI.Models.User
     {
         public string userMessage { get; set; }
         public string userToken { get; set; }
-        public string LoginID { get; set; }
+        public CheckLoginExamplePassword userProfile { get; set; }
+    }
+
+    public class CheckLoginExamplePassword
+    {
         public string password { get; set; }
     }
 

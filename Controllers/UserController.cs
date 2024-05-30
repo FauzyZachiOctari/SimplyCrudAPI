@@ -9,7 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
-//using SimplyCrudAPI.ExampleData.UserData;
+using SimplyCrudAPI.ExampleData.UserData;
 
 namespace SimplyCrudAPI.Controllers
 {
@@ -90,7 +90,7 @@ namespace SimplyCrudAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CheckLoginExample))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(CheckLoginExampleNotFound))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(CheckLoginExampleNotFound))]
         public async Task<IActionResult> CheckLogin(UserLogin userLogin)
         {
             try
