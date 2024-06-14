@@ -91,10 +91,10 @@ namespace SimplyCrudAPI.Controllers
         /// <returns>The API output will contain an arrays of carrier info.</returns>
         /// <response code="200">The API output will contain an arrays of Book info.</response>
         /// 
-        /// <response code="404">Invalid data Payload.</response>
+        ///// <response code="404">Invalid data Payload.</response>
         /// <response code="401">Bad Request to Server</response>
         [HttpGet("getbook")]
-        ////[Authorize]
+        [Authorize]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(IEnumerable<ExampleBook>), 200, Type = typeof(BookDataList[]))]
         [ProducesResponseType(typeof(IEnumerable<ExampleInvalidToken>), 401, Type = typeof(CheckTokenInvalid))]
@@ -107,7 +107,7 @@ namespace SimplyCrudAPI.Controllers
         /// Gets Book Information By Id Book
         /// </summary>
         /// <returns></returns>
-        /// /// <response code="200">The API output will contain an Book info which search By Id Book.</response>
+        /// <response code="200">The API output will contain an Book info which search By Id Book.</response>
         /// <response code="404">Data Not Found.</response>
         [HttpGet]
         [Route("GetBookByIdBook/{idBook:guid}")]
@@ -123,6 +123,61 @@ namespace SimplyCrudAPI.Controllers
             }
 
             return Ok(book);
+        }
+
+        /// <summary>
+        /// Update by Id Book.
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns>True if the Book is successfully updated, otherwise false.</returns>
+        /// <remarks>
+        /// Id Book must be filled in to update Book. Leave it null if you don't want to change the data. And if you want to change the data, replace null with "Your data".
+        /// </remarks>
+        [HttpPut]
+        [Route("UpdateBook")]
+        public async Task<IActionResult> UpdateBook(UpdateBookRequest updateBookRequest)
+        {
+            try
+            {
+                var book = await _dbContext.BookDataListed.FindAsync(updateBookRequest.IdBook);
+
+                if (book != null)
+                {
+                    if (updateBookRequest.BookTittle != null)
+                        book.BookTittle = updateBookRequest.BookTittle;
+
+                    if (updateBookRequest.Writer != null)
+                        book.Writer = updateBookRequest.Writer;
+
+                    if (updateBookRequest.Publisher != null)
+                        book.Publisher = updateBookRequest.Publisher;
+
+                    if (updateBookRequest.PublicationYear != null)
+                        book.PublicationYear = updateBookRequest.PublicationYear;
+
+                    if (updateBookRequest.ISBN != null)
+                        book.ISBN = updateBookRequest.ISBN;
+
+                    if (updateBookRequest.Stock != null)
+                        book.Stock = updateBookRequest.Stock;
+
+                    if (updateBookRequest.RackNumber != null)
+                        book.RackNumber = updateBookRequest.RackNumber;
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return Ok(new
+                    {
+                        message = "Update Book successfully",
+                        Address = book
+                    });
+                }
+
+                return NotFound();
+            }catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         /// <summary>

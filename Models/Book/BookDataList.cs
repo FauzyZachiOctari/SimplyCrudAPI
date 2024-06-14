@@ -29,6 +29,18 @@ namespace SimplyCrudAPI.Models.Book
         public string RackNumber { get; set; }
     }
 
+    public class UpdateBookRequest
+    {
+        public Guid IdBook { get; set; }
+        public string? BookTittle { get; set; }
+        public string? Writer { get; set; }
+        public string? Publisher { get; set; }
+        public string? PublicationYear { get; set; }
+        public string? ISBN { get; set; }
+        public string? Stock { get; set; }
+        public string? RackNumber { get; set; }
+    }
+
     public class BookAddBad
     {
         public string Message { get; set; }
