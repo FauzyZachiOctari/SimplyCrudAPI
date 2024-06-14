@@ -51,4 +51,12 @@ namespace SimplyCrudAPI.Models.Book
         public string Message { get; set; }
         public BookDataListCreatedSucces BookDataList { get; set; }
     }
+
+    public class BookNotFound
+    {
+        public string type { get; set; }
+        public string title { get; set; }
+        public int status { get; set; }
+        public string traceId { get; set; }
+    }
 }

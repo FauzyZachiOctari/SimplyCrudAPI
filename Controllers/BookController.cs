@@ -89,11 +89,11 @@ namespace SimplyCrudAPI.Controllers
         /// Gets all Book Information
         /// </summary>
         /// <returns>The API output will contain an arrays of carrier info.</returns>
-        /// <response code="200">The API output will contain an arrays of Address info.</response>
+        /// <response code="200">The API output will contain an arrays of Book info.</response>
         /// 
         /// <response code="404">Invalid data Payload.</response>
         /// <response code="401">Bad Request to Server</response>
-        [HttpGet("GetAddress")]
+        [HttpGet("GetBook")]
         [Authorize]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(IEnumerable<ExampleBook>), 200, Type = typeof(BookDataList[]))]
@@ -101,6 +101,28 @@ namespace SimplyCrudAPI.Controllers
         public async Task<IActionResult> GetAddress()
         {
             return Ok(await _dbContext.BookDataListed.ToListAsync());
+        }
+
+        /// <summary>
+        /// Gets Book Information By Id Book
+        /// </summary>
+        /// <returns></returns>
+        /// /// <response code="200">The API output will contain an Book info which search By Id Book.</response>
+        /// <response code="404">Data Not Found.</response>
+        [HttpGet]
+        [Route("GetBookByIdBook/{idBook:guid}")]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBookNotFound>), 404, Type = typeof(BookNotFound))]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBookByIdBook>), 200, Type = typeof(BookDataList))]
+        public async Task<IActionResult> GetAddressed([FromRoute] Guid idBook)
+        {
+            var book = await _dbContext.BookDataListed.FindAsync(idBook);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(book);
         }
     }
 }
