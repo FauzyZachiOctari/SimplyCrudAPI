@@ -10,6 +10,9 @@ using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
 using SimplyCrudAPI.ExampleData.BookData;
+using System.Net;
+using SimplyCrudAPI.Models.Global;
+using SimplyCrudAPI.ExampleData.GlobalData;
 
 namespace SimplyCrudAPI.Controllers
 {
@@ -26,7 +29,7 @@ namespace SimplyCrudAPI.Controllers
             _dbContext = dbContext;
         }
 
-        //untuk register user controller. ubah disini untuk register user
+        //untuk Added Book controller. ubah disini untuk Added Book
         /// <summary>
         /// Create a new data book. Use generated token while login to create a new book.
         /// </summary>
@@ -80,6 +83,24 @@ namespace SimplyCrudAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
 
+        }
+
+        /// <summary>
+        /// Gets all Book Information
+        /// </summary>
+        /// <returns>The API output will contain an arrays of carrier info.</returns>
+        /// <response code="200">The API output will contain an arrays of Address info.</response>
+        /// 
+        /// <response code="404">Invalid data Payload.</response>
+        /// <response code="401">Bad Request to Server</response>
+        [HttpGet("GetAddress")]
+        [Authorize]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBook>), 200, Type = typeof(BookDataList[]))]
+        [ProducesResponseType(typeof(IEnumerable<ExampleInvalidToken>), 401, Type = typeof(CheckTokenInvalid))]
+        public async Task<IActionResult> GetAddress()
+        {
+            return Ok(await _dbContext.BookDataListed.ToListAsync());
         }
     }
 }
