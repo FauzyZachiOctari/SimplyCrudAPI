@@ -14,6 +14,7 @@ using SimplyCrudAPI.ExampleData.UserData;
 namespace SimplyCrudAPI.Controllers
 {
     [ApiController]
+    [Route("/")]
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -33,7 +34,7 @@ namespace SimplyCrudAPI.Controllers
         [HttpPost("RegisterUser")]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(UserProfileRegisterBad), 400)]
-        [ProducesResponseType(typeof(UserProfileRegisterData), 200)]
+        [ProducesResponseType(typeof(UserProfileRegisterMessage), 200)]
         public async Task<IActionResult> AddUserRegister(UserProfileRegister userProfile)
         {
             try
@@ -69,7 +70,7 @@ namespace SimplyCrudAPI.Controllers
 
                 return Ok(new
                 {
-                    message = "User registered successfully",
+                    message = "Added Book successfully",
                     userProfile = userProfileRegister
                 });
             }

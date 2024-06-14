@@ -74,7 +74,7 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "API Learning Fauzy",
+        Title = "Simply Crud API Fauzy",
         Description = "Testing Web API Server"
         //,
         //TermsOfService = new Uri("https://example.com/terms"),
@@ -90,9 +90,9 @@ builder.Services.AddSwaggerGen(options =>
         //}
     });
 
-    // using System.Reflection;
-    //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    //options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    //using System.Reflection;
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
     options.ExampleFilters();
 });
@@ -100,6 +100,7 @@ builder.Services.AddSwaggerGen(options =>
 //builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<UserAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("UserApiConnection")));
+builder.Services.AddDbContext<BookAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BookApiConnection")));
 
 var app = builder.Build();
 
@@ -112,6 +113,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

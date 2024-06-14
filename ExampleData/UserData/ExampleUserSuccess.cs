@@ -1,29 +1,28 @@
 ﻿using SimplyCrudAPI.Models.Message;
 using SimplyCrudAPI.Models.User;
 using Microsoft.AspNetCore.Mvc;
-using SimplyCrudAPI.Models.User;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace SimplyCrudAPI.ExampleData.UserData
 {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserProfile))]
-    public class ExampleUserSuccess : IExamplesProvider<UserProfileRegisterData>
+    public class ExampleUserSuccess : IExamplesProvider<UserProfileRegisterMessage>
     {
-        public UserProfileRegisterData GetExamples()
+        public UserProfileRegisterMessage GetExamples()
         {
-            return new UserProfileRegisterData
+            return new UserProfileRegisterMessage
             {
-                UserProfile = new UserProfileRegisterBad
+                UserProfile = new UserProfileRegisterData
                 {
-                    Message = "User registered successfully"
+                    IdUser = 3,
+                    LoginID = "admin",
+                    Password = "$2a$11$5IqEzHK0d1F16UK2Sk2H6ORtB1LDcpycyJVAQC4FCg7wXUxzQlkxu", // This should be a hashed password
+                    Email = "admin@gmail.com",
+                    Address = "Pekanbaru",
+                    Gender = "Pria",
+                    Age = 19
                 },
-                IdUser = 3,
-                LoginID = "admin",
-                Password = "$2a$11$5IqEzHK0d1F16UK2Sk2H6ORtB1LDcpycyJVAQC4FCg7wXUxzQlkxu", // This should be a hashed password
-                Email = "admin@gmail.com",
-                Address = "Pekanbaru",
-                Gender = "Pria",
-                Age = 19
+                Message = "User registered successfully"
             };
         }
     }
