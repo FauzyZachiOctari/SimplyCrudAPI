@@ -59,4 +59,9 @@ namespace SimplyCrudAPI.Models.Book
         public int status { get; set; }
         public string traceId { get; set; }
     }
+
+    public class BookDeleted
+    {
+        public string Message { get; set; }
+    }
 }

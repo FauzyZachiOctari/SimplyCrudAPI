@@ -35,7 +35,7 @@ namespace SimplyCrudAPI.Controllers
         /// </summary>
         /// <response code="200">This API is used to create a new data book. The input data below is an example of the values ​​that will be stored.</response>
         [HttpPost("AddBook")]
-        [Authorize]
+        //[Authorize]
         //[ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BookAddBad), 400)]
         [ProducesResponseType(typeof(BookAddMessage), 200)]
@@ -93,8 +93,8 @@ namespace SimplyCrudAPI.Controllers
         /// 
         /// <response code="404">Invalid data Payload.</response>
         /// <response code="401">Bad Request to Server</response>
-        [HttpGet("GetBook")]
-        [Authorize]
+        [HttpGet("getbook")]
+        ////[Authorize]
         //[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(IEnumerable<ExampleBook>), 200, Type = typeof(BookDataList[]))]
         [ProducesResponseType(typeof(IEnumerable<ExampleInvalidToken>), 401, Type = typeof(CheckTokenInvalid))]
@@ -123,6 +123,45 @@ namespace SimplyCrudAPI.Controllers
             }
 
             return Ok(book);
+        }
+
+        /// <summary>
+        /// Deletes an Book By Id Book.
+        /// </summary>
+        /// <param name="idBook"></param>
+        /// <returns>True if the Book is successfully deleted, otherwise false.</returns>
+        /// <remarks>
+        /// Id Book must be filled in. If the ID Book is found, the Book data will be deleted
+        /// </remarks>
+        [HttpDelete]
+        [Route("DeleteBook/{idBook:guid}")]
+        //[Route("DeleteBook")]
+        //[ApiExplorerSettings(IgnoreApi = true)]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBookDeleted>), 200, Type = typeof(BookDeleted))]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBookNotFound>), 404, Type = typeof(BookNotFound))]
+        public async Task<IActionResult> DeleteAddress([FromRoute] Guid idBook)
+        {
+            try
+            {
+                var book = await _dbContext.BookDataListed.FindAsync(idBook);
+
+                if (book != null)
+                {
+                    _dbContext.Remove(book);
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new
+                    {
+                        message = "Book Deleted successfully"
+                    });
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
+
         }
     }
 }
