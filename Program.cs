@@ -101,6 +101,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<UserAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("UserApiConnection")));
 builder.Services.AddDbContext<BookAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("BookApiConnection")));
+builder.Services.AddDbContext<ImagesAPIDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ImagesApiConnection")));
 
 var app = builder.Build();
 
