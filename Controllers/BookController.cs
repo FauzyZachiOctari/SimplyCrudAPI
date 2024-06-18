@@ -130,11 +130,17 @@ namespace SimplyCrudAPI.Controllers
         /// </summary>
         /// <param name="idBook"></param>
         /// <returns>True if the Book is successfully updated, otherwise false.</returns>
+        /// <response code="200">The result will display the data with changes. If any fields, isn't change. the field of old data will display.</response>
+        /// <response code="400">The updateBookRequest field is required. Use ("Fill Your Data")</response>
+        /// <response code="404">Data Not Found.</response>
         /// <remarks>
-        /// Id Book must be filled in to update Book. Leave it null if you don't want to change the data. And if you want to change the data, replace null with "Your data".
+        /// Id Book must be filled in to update Book. Leave it null if you don't want to change the data. And if you want to change the data, replace null with "Your data". Use ("") if you update on API.
         /// </remarks>
         [HttpPut]
         [Route("UpdateBook")]
+        [ProducesResponseType(typeof(IEnumerable<ExampleBookNotFound>), 404, Type = typeof(BookNotFound))]
+        [ProducesResponseType(typeof(BookUpdatedUndocumented), 400)]
+        [ProducesResponseType(typeof(BookUpdatedMessage), 200)]
         public async Task<IActionResult> UpdateBook(UpdateBookRequest updateBookRequest)
         {
             try

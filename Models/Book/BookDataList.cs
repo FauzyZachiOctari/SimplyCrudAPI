@@ -76,4 +76,27 @@ namespace SimplyCrudAPI.Models.Book
     {
         public string Message { get; set; }
     }
+
+    public class BookDataListUpdatedSucces
+    {
+        public Guid IdBook { get; set; }
+        public string BookTittle { get; set; }
+        public string Writer { get; set; }
+        public string Publisher { get; set; }
+        public string PublicationYear { get; set; }
+        public string ISBN { get; set; }
+        public string Stock { get; set; }
+        public string RackNumber { get; set; }
+    }
+
+    public class BookUpdatedMessage
+    {
+        public string Message { get; set; }
+        public BookDataListUpdatedSucces BookDataUpdate { get; set; }
+    }
+
+    public class BookUpdatedUndocumented
+    {
+        public string Message { get; set; }
+    }
 }
