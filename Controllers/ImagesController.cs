@@ -104,5 +104,35 @@ namespace SimplyCrudAPI.Controllers
                 return "Upload Failed!";
             }
         }
+
+        [HttpGet("GetImagesFolder/{fileName}")]
+        public async Task<IActionResult> Get([FromRoute] string fileName)
+        {
+            string[] extensions = { ".png", ".jpg", ".jpeg" };
+            string path = _webHostEnvironment.WebRootPath + "/Images/UploadExample/";
+
+            foreach (var ext in extensions)
+            {
+                var filePath = Path.Combine(path, fileName + ext);
+                if (System.IO.File.Exists(filePath))
+                {
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                    string mimeType = GetMimeType(ext);
+                    return File(fileBytes, mimeType);
+                }
+            }
+            return NotFound();
+        }
+
+        private string GetMimeType(string extension)
+        {
+            return extension switch
+            {
+                ".png" => "image/png",
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                _ => "application/octet-stream",
+            };
+        }
     }
 }
