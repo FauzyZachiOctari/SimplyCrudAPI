@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SimplyCrudAPI.ExampleData.BookData;
+using SimplyCrudAPI.Models.Book;
 
 namespace SimplyCrudAPI.Controllers
 {
@@ -180,5 +182,56 @@ namespace SimplyCrudAPI.Controllers
                 return NotFound("File not found");
             }
         }
+
+        /// <summary>
+        /// Deletes an Book By Id Book.
+        /// </summary>
+        /// <param name="idImages"></param>
+        /// <returns>True if the Book is successfully deleted, otherwise false.</returns>
+        /// <remarks>
+        /// Id Book must be filled in. If the ID Book is found, the Book data will be deleted
+        /// </remarks>
+        [HttpDelete]
+        [Route("DeleteImages/{idImages:guid}")]
+        public async Task<IActionResult> DeleteAddress([FromRoute] Guid idImages)
+        {
+            try
+            {
+                // Ekstensi file yang didukung
+                string[] extensions = { ".png", ".jpg", ".jpeg" };
+
+                // Temukan entri gambar di database
+                var image = await _context.Imagined.FindAsync(idImages);
+
+                if (image != null)
+                {
+                    // Loop melalui ekstensi yang didukung untuk menemukan file yang sesuai
+                    string fileName = image.fileImages;
+                    string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "Images", "UploadExample", fileName);
+
+                    // Jika file ditemukan, hapus file
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+
+                    // Menghapus entri dari database
+                    _context.Remove(image);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(new
+                    {
+                        message = "Image Deleted successfully"
+                    });
+                }
+
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
     }
 }
