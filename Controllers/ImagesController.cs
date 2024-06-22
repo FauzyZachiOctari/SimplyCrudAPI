@@ -105,6 +105,23 @@ namespace SimplyCrudAPI.Controllers
             }
         }
 
+        ///<summary>
+        /// Get data from database use fileName. If pict get remove from folder, the pict still can display as result. Because this metode get the image pict (Binary data) from database.
+        /// </summary>
+        /// <param name="fileName"></param>
+        [HttpGet("GetImagesDatabase/{fileName}")]
+        public async Task<IActionResult> GetImages([FromRoute] string fileName)
+        {
+            var imageFromDb = await _context.Imagined.FirstOrDefaultAsync(i => i.fileImages == fileName);
+
+            if (imageFromDb != null)
+            {
+                return File(imageFromDb.imageData, "image/png");
+            }
+
+            return NotFound();
+        }
+
         [HttpGet("GetImagesFolder/{fileName}")]
         public async Task<IActionResult> Get([FromRoute] string fileName)
         {
@@ -133,6 +150,35 @@ namespace SimplyCrudAPI.Controllers
                 ".jpeg" => "image/jpeg",
                 _ => "application/octet-stream",
             };
+        }
+
+        [HttpGet("GetImageWithName")]
+        public IActionResult GetImage([FromQuery] string fileName)
+        {
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return BadRequest("File name is required");
+            }
+            var fileExtension = Path.GetExtension(fileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return BadRequest("File extension is not allowed");
+            }
+
+            string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, "Images/UploadExample", fileName);
+
+            if (System.IO.File.Exists(imagePath))
+            {
+                var fileBytes = System.IO.File.ReadAllBytes(imagePath);
+                return File(fileBytes, "image/" + fileExtension.Substring(1));
+            }
+            else
+            {
+                return NotFound("File not found");
+            }
         }
     }
 }
